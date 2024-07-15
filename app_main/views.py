@@ -1,10 +1,14 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect,render
+from django.urls import reverse
 
-
-def login(request):
-    return render(request, "app_main/login.html")
-
-@login_required
 def home(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+
     return render(request, "app_main/home.html")
+
+
+
+
+def google_login(request):
+    return redirect(reverse('social:begin', args=['google-oauth2']))
